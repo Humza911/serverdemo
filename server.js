@@ -1,15 +1,27 @@
-import http from 'http';
+import express from 'express';
+import bodyParser from 'body-parser';
+const app = express();
 
-const server = http.createServer((request, response)=>{
-    // console.log(request.headers)
-    console.log(request.method)
-    console.log(request.url)
-    const user = {
-        name: 'Humza',
-        hobby: 'Games',
-    }
-    response.setHeader('Content-Type','application/json');
-    response.end(JSON.stringify(user));
+
+// app.use((req,res,next) => {
+//     console.log('hi')
+//     next();
+// })
+
+app.use(bodyParser.urlencoded({extended:false}))
+app.use(bodyParser.json());
+app.get('/', (req,res) => {
+    res.send("getting root");
 })
 
-server.listen(3000);
+app.get('/profile', (req,res) => {
+    res.send("getting profile");
+})
+
+app.post('/profile', (req,res) => {
+    console.log(req.body)    
+    res.send('Success')
+})
+
+
+app.listen(3000);
